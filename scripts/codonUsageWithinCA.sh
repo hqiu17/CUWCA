@@ -1,4 +1,4 @@
-#set -x
+#!/bin/sh
 #################################################################
 #                    codonUsageWithinCA                         #
 # Analyze codon usage using within-CA (correspondence analysis) #
