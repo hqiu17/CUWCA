@@ -1,6 +1,8 @@
-#! /usr/bin/perl
-#getLongSeqs.pl
+#!/usr/bin/env perl
+# getLongSeqs.pl
+# A script to remove short sequences in fasta file
 
+# Parse command line arguemnt
 my $usage = "getLongSeqs.pl, retrieve sequence longer than specified ".
             "length cutoff\n".
             "usage: remove_short_seqs.pl 1:input file(fasta) 2:minimum ".
@@ -10,16 +12,15 @@ my $in    = shift or die "$usage";
 my $minlen= shift or die "$usage";
 my $out   = shift or die "$usage";
 
-open (IN, "$in") or die "Cannot open input file: $in"; 
-open (OUT, ">$out"); 
-
+# Declare variables
 my %hash=(); 
 my $gene;
 my $seqno=0;
 my $pass=0;
  
 # Loop through input fasta file and store
-# sequences into dictionary
+# sequences and lengths into a hash
+open (IN, "$in") or die "Cannot open input file: $in"; 
 while (<IN>){
    if (/\>(\S+)/){
        ++$seqno;
@@ -39,12 +40,8 @@ while (<IN>){
    }
 }
 
-
-# foreach (keys %hash) {
-#     push ( @len_sum, $hash{$_}->{len} );
-# }
-
-# Loop through %hash and export sequence longer than cutoff 
+# Loop through hash and export sequence longer than cutoff
+open (OUT, ">$out");
 foreach (sort {$hash{$a}->{'num'} <=> $hash{$b}->{'num'}} keys %hash) {
     if ($_ !~ /plugin/i) {
        if ($hash{$_}->{len} >= $minlen) {

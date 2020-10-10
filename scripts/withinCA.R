@@ -1,17 +1,19 @@
-#!/usr/local/bin/Rscript
+#!/usr/bin/env Rscript
 # Wthin corresponding analysis
 
 library(ade4)
 library(MASS)
 options(max.print = 9999999)
 
+# Parse command line argument
 cmd_args = commandArgs(T);
 infile = cmd_args[1];
 
+# Read codon data and transpose it
 table<-read.table(cmd_args[1], header=T)
-
 table<-as.data.frame(t(as.matrix(table)))
 
+# Make a factor from synonymous codons
 aa=c(rep("F", 2), rep("L", 6), rep("S", 6),
       rep("Y", 2), rep("C", 2), rep("P", 4),
       rep("H", 2), rep("Q", 2), rep("R", 6),
@@ -24,8 +26,7 @@ aafac=as.factor(aa)
 # Correspondence analysis
 table.ca<-dudi.coa(table, scan=FALSE, nf=4)
 
-
-# Within correspondence analysis
+# Within-group correspondence analysis
 table.wt<-wca(table.ca, aafac, scan=FALSE, nf=3)
 
 # List the coordinates of each gene on the first 4 axis

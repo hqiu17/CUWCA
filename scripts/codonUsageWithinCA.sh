@@ -1,7 +1,8 @@
-#!/bin/sh
+#!/usr/bin/env sh
 #################################################################
 #                    codonUsageWithinCA                         #
-# Analyze codon usage using within-CA (correspondence analysis) #
+#          Analyze codon usage using within-group               #
+#               CA (correspondence analysis)                    #
 #################################################################
 
 # Check command arguments
@@ -11,7 +12,7 @@ if [[ ! $# == 2 ]]; then
     exit 1
 fi
 
-# set
+# Get command line arguments
 file=$1
 lenCut=$2
 
@@ -21,7 +22,7 @@ if [[ ! -e $file ]]; then
     exit 1
 fi
 
-# get input file basename
+# Extract input file basename from input file name
 if [[ $file =~ (.+).txt ]]; then
 	fileName=${BASH_REMATCH[1]}
 elif [[ $file =~ (.+).fasta ]]; then
